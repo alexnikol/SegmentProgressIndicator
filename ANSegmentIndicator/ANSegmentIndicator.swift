@@ -13,12 +13,12 @@ typealias Radians = CGFloat
 
 struct ANSegmentIndicatorSettings {
     var segmentsCount: Int = 4
-    var segmentWidth: CGFloat = 10
-    var spaceBetweenSegments: Degrees = 5
+    var segmentWidth: CGFloat = 2
+    var spaceBetweenSegments: Degrees = 10
     var segmentColor: UIColor = UIColor.red
     var defaultSegmentColor: UIColor = UIColor.gray
     var segmentBorderType: CAShapeLayerLineCap = .round
-    var animationDuration: Double = 2
+    var animationDuration: Double = 0.5
     var isStaticSegmentsVisible = true
 }
 
@@ -28,7 +28,12 @@ class ANSegmentIndicator: UIView {
     private var staticSegments: [CAShapeLayer] = []
     private var value: Radians = 0.0
     private var activeSegment: Int = 0
-    var settings: ANSegmentIndicatorSettings = ANSegmentIndicatorSettings()
+    var settings: ANSegmentIndicatorSettings = ANSegmentIndicatorSettings() {
+        didSet {
+            self.layer.sublayers?.forEach { $0.removeFromSuperlayer() }
+            self.setup()
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -125,7 +130,6 @@ class ANSegmentIndicator: UIView {
         let oldValue = value
         let newValue = percent
         value = newValue
-        print("FF \(oldValue) \(newValue)")
         let animation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = oldValue
         animation.toValue = newValue
