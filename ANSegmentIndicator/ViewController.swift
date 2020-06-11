@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         indicators.append(segment)
         self.view.addSubview(segment)
     }
-    
+     
     func setupSegment6() {
         var settings = ANSegmentIndicatorSettings()
         settings.defaultSegmentColor = UIColor.gray
