@@ -20,6 +20,7 @@ struct ANSegmentIndicatorSettings {
     var segmentBorderType: CAShapeLayerLineCap = .round
     var animationDuration: Double = 0.5
     var isStaticSegmentsVisible = true
+    var startPointPadding: CGFloat = 0
 }
 
 class ANSegmentIndicator: UIView {
@@ -62,10 +63,11 @@ class ANSegmentIndicator: UIView {
         let spaceCorrelation = toRadians(Degrees((settings.segmentWidth)))
         let segmentSpace = summedSpaceForSegments / Radians(settings.segmentsCount) - spaceCorrelation
         let halfSpace = toRadians(settings.spaceBetweenSegments) / 2 + spaceCorrelation / 2
+        let startPointPaddingInRadians = toRadians(Degrees(settings.startPointPadding))
         
         for segmentIndex in 0..<settings.segmentsCount {
             let index = CGFloat(segmentIndex)
-            let startPoint = segmentSpace * index + halfSpace + 2 * halfSpace * index
+            let startPoint = startPointPaddingInRadians + segmentSpace * index + halfSpace + 2 * halfSpace * index
             let endPoint = startPoint + segmentSpace
             let segmentShape = getSegment(startAngle: startPoint,
                                           endInAngle: endPoint,
@@ -87,10 +89,11 @@ class ANSegmentIndicator: UIView {
         let summedSpaceForSegments = 2 * Radians.pi - emptySpaceInRadians
         let segmentSpace = summedSpaceForSegments / Radians(settings.segmentsCount) - spaceCorrelation
         let halfSpace = toRadians(settings.spaceBetweenSegments) / 2 + spaceCorrelation / 2
+        let startPointPaddingInRadians = toRadians(Degrees(settings.startPointPadding))
         
         for segmentIndex in 0..<settings.segmentsCount {
             let index = CGFloat(segmentIndex)
-            let startPoint = segmentSpace * index + halfSpace + 2 * halfSpace * index
+            let startPoint = startPointPaddingInRadians + segmentSpace * index + halfSpace + 2 * halfSpace * index
             let endPoint = startPoint + segmentSpace
             let segmentShape = getSegment(startAngle: startPoint,
                                           endInAngle: endPoint,
